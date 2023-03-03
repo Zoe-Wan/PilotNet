@@ -19,3 +19,6 @@ def setup_logger(name, save_dir, txt_file_name='log'):
         logger.addHandler(fh)
 
     return logger
+
+def get_logger(name):
+    return logging.getLogger(name)

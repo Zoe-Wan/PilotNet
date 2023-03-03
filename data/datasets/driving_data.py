@@ -14,7 +14,7 @@ class DrivingDatasetDataset(object):
         self.cfg = cfg
         prepare_driving_dataset(cfg)
         self.augment_data = self.cfg.IMAGE.DO_AUGMENTATION
-        self.data_dir = data_dir
+        self.data_dir = os.path.join(data_dir, './data')
         ann_file = open(ann_path, 'r')
         ann_reader = csv.reader(ann_file, delimiter=',')
         self.annotations = dict([r for r in ann_reader])

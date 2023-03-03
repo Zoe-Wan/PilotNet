@@ -13,8 +13,8 @@ _C.MODEL = CN()
 _C.MODEL.META_ARCHITECTURE = 'PilotNet'
 _C.MODEL.BACKWARD_META_ARCHITECTURE = 'BackwardPilotNet'
 _C.MODEL.DEVICE = "cuda"
-_C.MODEL.WEIGHTS = "./weights_final.pth"  # should be a path to pth or ckpt file
-
+_C.MODEL.WEIGHTS = ""  # should be a path to pth or ckpt file
+# checkpoints/weights_final.pth
 # ---------------------------------------------------------------------------- #
 # __CNN Configs
 # ---------------------------------------------------------------------------- #
@@ -63,10 +63,10 @@ _C.INPUT.BATCH_SIZE = 256
 # ---------------------------------------------------------------------------- #
 _C.DATASETS = CN()
 _C.DATASETS.FACTORY = 'DrivingDatasetDataset'               # datasets class
-_C.DATASETS.DATA_DIR = './driving_dataset'                  # path to dataset
-_C.DATASETS.ANN_TRAIN_PATH = './driving_dataset/train.csv'  # path to annotation csv
-_C.DATASETS.ANN_VAL_PATH = './driving_dataset/val.csv'      # path to annotation csv
-_C.DATASETS.ANN_VIS_PATH = './driving_dataset/vis.csv'      # path to annotation csv
+_C.DATASETS.DATA_DIR = '../../driving_dataset'                 # path to dataset
+_C.DATASETS.ANN_TRAIN_PATH = _C.DATASETS.DATA_DIR+'/train.csv'  # path to annotation csv
+_C.DATASETS.ANN_VAL_PATH = _C.DATASETS.DATA_DIR+'/val.csv'      # path to annotation csv
+_C.DATASETS.ANN_VIS_PATH = _C.DATASETS.DATA_DIR+'/vis.csv'      # path to annotation csv
 _C.DATASETS.SHUFFLE = True                                  # load in shuffle fashion
 
 # ---------------------------------------------------------------------------- #
@@ -89,7 +89,7 @@ _C.STEER.AUGMENTATION_SIGMA = 1.    # yet to be determined
 # Dataloader Configs
 # ---------------------------------------------------------------------------- #
 _C.DATALOADER = CN()
-_C.DATALOADER.NUM_WORKERS = 0   # Number of data loading threads
+_C.DATALOADER.NUM_WORKERS = 1  # Number of data loading threads
 
 # ---------------------------------------------------------------------------- #
 # Solver Configs

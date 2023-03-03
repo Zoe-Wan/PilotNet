@@ -23,7 +23,7 @@ def do_visualization(
         dataloader,
         device,
 ):
-    logger = setup_logger('balad-mobile.visualization', False)
+    logger = setup_logger('visual', False)
     logger.info("Start visualizing")
 
     create_path(cfg.OUTPUT.VIS_DIR)

@@ -21,15 +21,13 @@ class VisdomLogger(dict):
         if not self.visdom.check_connection():
             create_visdom_connections(port)
         super(VisdomLogger, self).__init__(*args, **kwargs)
-        self.registered = False
-        self.plot_attributes = {}
+        # self.registered = False
+        # self.plot_attributes = {}
 
     def register_keys(self, keys):
         for key in keys:
             self[key] = []
-        for i, key in enumerate(self.keys()):
-            self.plot_attributes[key] = {'win_id': i}
-        self.registered = True
+        # self.registered = True
 
     def update(self, new_records):
         """Add new updates to records.
@@ -38,12 +36,21 @@ class VisdomLogger(dict):
         """
         for key, val in new_records.items():
             if key in self.keys():
+                # print("update!!!!!!"+key)
                 self[key].extend(val)
 
-    def do_plotting(self):
+    def plot(self, k):
+
+        y_values = np.array(self[k])
+        x_values = np.arange(len(self[k]))
+        self.visdom.line(Y=y_values, X=x_values, win=k,
+                         opts={'title': k.upper()}, update=None)
+
+
+    def plot_all(self):
         for k in self.keys():
             y_values = np.array(self[k])
             x_values = np.arange(len(self[k]))
-            self.visdom.line(Y=y_values, X=x_values, win=self.plot_attributes[k]['win_id'],
+            self.visdom.line(Y=y_values, X=x_values, win=k,
                              opts={'title': k.upper()}, update='append')
-            # self[k] = []
+

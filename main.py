@@ -25,8 +25,8 @@ def train(cfg):
 
     # build the dataloader
     dataloader_train = make_data_loader(cfg, 'train')
-    # dataloader_val = make_data_loader(cfg, 'val')
-    dataloader_val = None
+    dataloader_val = make_data_loader(cfg, 'val')
+    # dataloader_val = None
 
     # start the training procedure
     do_train(
@@ -36,28 +36,6 @@ def train(cfg):
         dataloader_val,
         optimizer,
         device
-    )
-
-
-def evaluation(cfg, dataset='val'):
-    model = build_model(cfg)
-    device = torch.device(cfg.MODEL.DEVICE)
-    model.to(device)
-
-    # load last checkpoint
-    assert cfg.MODEL.WEIGHTS is not ""
-    model.load_state_dict(torch.load(cfg.MODEL.WEIGHTS))
-
-    # build the dataloader
-    dataloader = make_data_loader(cfg, dataset)
-
-    # start the inferring procedure
-    do_evaluation(
-        cfg,
-        model,
-        dataloader,
-        device,
-        verbose=True
     )
 
 
@@ -123,16 +101,18 @@ def main():
     # setup the logger
     if not os.path.isdir(cfg.OUTPUT.DIR):
         os.mkdir(cfg.OUTPUT.DIR)
-    logger = setup_logger("balad-mobile.train", cfg.OUTPUT.DIR,
-                          '{0:%Y-%m-%d %H:%M:%S}_log'.format(datetime.now()))
-    logger.info(args)
-    logger.info("Running with config:\n{}".format(cfg))
+    logger_train = setup_logger("train", cfg.OUTPUT.DIR,
+                          '{0:%Y-%m-%d %H.%M.%S}_train'.format(datetime.now()))
+    logger_train.info(args)
+    logger_train.info("Running with config:\n{}".format(cfg))
+    logger_eval = setup_logger("eval", cfg.OUTPUT.DIR,
+                          '{0:%Y-%m-%d %H.%M.%S}_eval'.format(datetime.now()))
 
     # TRAIN
     train(cfg)
-
+    # evaluation(cfg)
     # Visualize
-    visualization(cfg)
+    # visualization(cfg)
 
 
 if __name__ == "__main__":
